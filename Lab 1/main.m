@@ -7,5 +7,5 @@ function main()
     img = im2double(imread('cameraman.tif'));
     
     %% Question 2.1.1 / Question 2.1.2
-
+    % 
 end
