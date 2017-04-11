@@ -13,13 +13,13 @@ function color = pixelValue(image, x, y, interpolationMethod, borderMethod)
             case 'periodic'
                 color = 0;
         end
-        return;
+        return
     end
     
     switch (interpolationMethod)
         case 'nearest'
             color = image(floor(y + 0.5), floor(x + 0.5));
-            return;
+            return
         case 'linear'
             k = floor(x);
             l = floor(y);
@@ -27,6 +27,6 @@ function color = pixelValue(image, x, y, interpolationMethod, borderMethod)
             b = y - l;
             color = (1-a)*(1-b)*image(k,l) + (1-a)*b*image(k, l+1) ...
                     + a*b*image(k+1, l+1) + a*(1-b)*image(k+1, l);
-            return;
+            return
     end
 end
