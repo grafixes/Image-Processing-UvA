@@ -1,13 +1,14 @@
-function color = pixelValue(image, x, y, method, borderMethod)
+function color = pixelValue(image, x, y, interpolationMethod, borderMethod)
+    
     [m, n] = size(image);
     % check if coordinates are in image
-    if ~inImage(size(image), x, y, method)
+    if ~inImage(size(image), x, y, interpolationMethod)
         switch (borderMethod)
             case 'constant'
                 color = 0;
             case 'nearest'
-                x = floor(nearestPixelValue(1, n, x));
-                y = floor(nearestPixelValue(1, m, y));
+                x = floor(valueInRange(1, n, x));
+                y = floor(valueInRange(1, m, y));
                 color = image(y, x);
             case 'periodic'
                 color = 0;
@@ -15,7 +16,7 @@ function color = pixelValue(image, x, y, method, borderMethod)
         return;
     end
     
-    switch (method)
+    switch (interpolationMethod)
         case 'nearest'
             color = image(floor(y + 0.5), floor(x + 0.5));
             return;
