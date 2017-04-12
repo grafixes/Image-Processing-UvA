@@ -1,5 +1,5 @@
 %% Exercise 1
-% Max Bos (10669027) and Philip Bouman ()
+% Max Bos (10669027) and Philip Bouman (10668667)
 
 function main()
 
