@@ -1,3 +1,4 @@
+% Returns pixel value at specified (x,y) coordinates.
 function color = pixelValue(image, x, y, interpolationMethod, borderMethod)
     
     [m, n] = size(image);
@@ -11,7 +12,13 @@ function color = pixelValue(image, x, y, interpolationMethod, borderMethod)
                 y = floor(valueInRange(1, m, y));
                 color = image(y, x);
             case 'periodic'
-                color = 0;
+                if ~(x >= 1 && x <= s(2))
+                    x = floor(valueInRange(1, n, abs(abs(x) - s(2))));
+                end
+                if ~(y >=1 && y <= s(1))
+                    y = floor(valueInRange(1, m, abs(abs(y) - s(1))));
+                end
+                color = image(y, x);
         end
         return
     end
