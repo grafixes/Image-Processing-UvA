@@ -1,6 +1,9 @@
 % Returns pixel value at specified (x,y) coordinates.
 function color = pixelValue(image, x, y, interpolationMethod, borderMethod)
     
+    % Set constant to be the default border method.
+    if ~exist('borderMethod', 'var'), borderMethod = 'constant'; end
+
     [m, n] = size(image);
     % check if coordinates are in image
     if ~inImage(size(image), x, y, interpolationMethod)

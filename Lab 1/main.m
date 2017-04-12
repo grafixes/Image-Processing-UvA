@@ -29,4 +29,5 @@ function main()
     hold off;
     
     %% Question 3.1.1
+    rotateImage(img, 30, 'nearest');
 end

@@ -1,20 +1,57 @@
-function rotatedImage = rotateImage(image, angle, method)
-    theta = deg2rad(angle);
+%% Image Rotation
+% Performs a rotation transformation with a 
+% specified angle on a provided image around
+% its center.
+function rotatedImage = rotateImage(image, angle, interpolationMethod)
     
-    s = size(image)     
-    c1 = s(2) / 2
-    c2 = s(1) / 2
+    imSize = size(image);
+    phi = deg2rad(angle);
+    center = round(imSize/2);
     
-    R = [cos(theta), -sin(theta), c1;
-        sin(theta), cos(theta), c2;
-        0, 0, 1];
+    R = rot(phi, -center);
+    T = trans(center);
+    [X, Y] = meshgrid(1:imSize(2), 1:imSize(1));
+    indices = [X(:) Y(:)]';
+    indices = [indices; ones(1, length(indices))];
+    rotated = R * T * indices;
     
-    T = [1,0,0;
-        0,1,0;
-        
-%     a = round(s(2) * cos(theta) + s(1) * sin(theta))
-%     b = round(s(2) * sin(theta) + s(1) * cos(theta))
+    rotatedImage = zeros(imSize(1), imSize(2));
+    indices = imageToIndices(image);
     
+    invR = rot(-angle);
+    invRotatedCoords = addMiddle * (invR * (subMiddle * coords ));
+    
+    for i=1:length(invRotatedCoords(1,:))
+        origin = [invRotatedCoords(1,i), invRotatedCoords(2,i)];
+        rotatedImage(coords(1,i), coords(2,i)) = pixelValue(image, origin(1), origin(2), method);       
+    end
+   
+    
+    rotatedImage = zeros(imSize(1), imSize(2));
+    indices = imageToIndices(image);
+    
+    invR = rot(-angle);
+    invRotatedCoords = trans(center) * (R * indices);
+    
+    for i=1:length(invRotatedCoords(1,:))
+        origin = [invRotatedCoords(1,i), invRotatedCoords(2,i)];
+        rotatedImage(coords(1,i), coords(2,i)) = pixelValue(image, origin(1), origin(2), method);       
+    end
+end
+    
+%     reshaped = reshape(image, 2, []);
+%     size(reshaped)
+%     rotatedImage = R * reshaped;
+%     rotatedImage = reshape(rotatedImage, s(1), s(2));
+%     imshow(rotatedImage);
+    
+%     T = [1,0,;
+%         0,1,0;
+%         0,0,1];
+%     a = round(s(2) * cos(phi) + s(1) * sin(phi))
+%     b = round(s(2) * sin(phi) + s(1) * cos(phi))
+    
+
 
     
     

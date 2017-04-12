@@ -1,21 +1,22 @@
-function rotatedImage = rotateImage(image, angle, method)
-    theta = deg2rad(angle);
+%% Image Rotation
+% Performs a rotation transformation with a 
+% specified angle on a provided image around
+% its center.
+function rotatedImage = rotateImage(image, angle, interpolationMethod)
     
-    s = size(image)     
-    c1 = s(2) / 2
-    c2 = s(1) / 2
+    imSize = size(image);
+    phi = deg2rad(angle);
+    center = round(imSize/2);    
     
-    R = [cos(theta), -sin(theta), c1;
-        sin(theta), cos(theta), c2;
-        0, 0, 1];
+    rotatedImage = zeros(imSize(1), imSize(2));
+    indices = imageToIndices(image);
     
-%     T = [1,0,;
-%         0,1,0;
-%         0,0,1];
-%     a = round(s(2) * cos(theta) + s(1) * sin(theta))
-%     b = round(s(2) * sin(theta) + s(1) * cos(theta))
+    invR = rot(phi, -center);
+    invRotatedIndices = trans(center) * (invR * indices);
     
-
-
-    
-    
+    for i=1:length(invRotatedIndices(1,:))
+        origin = [invRotatedIndices(1,i), invRotatedIndices(2,i)]
+        rotatedImage(indices(1,i), indices(2,i)) = pixelValue(image, ...
+            origin(1), origin(2), interpolationMethod);       
+    end
+end
