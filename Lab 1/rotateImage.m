@@ -16,5 +16,6 @@ function rotatedImage = rotateImage(image, angle, method)
 %     b = round(s(2) * sin(theta) + s(1) * cos(theta))
     
 
+
     
     
