@@ -10,8 +10,8 @@ function rotatedImage = rotateImage(image, angle, interpolationMethod)
     numberOfIndices = m*n;
     
     R = rot(phi);
-	[X, Y] = meshgrid(1:n, 1:m);
-	indices = [X(:)'; Y(:)'; ones(1, numberOfIndices)];
+    [X, Y] = meshgrid(1:n, 1:m);
+    indices = [X(:)'; Y(:)'; ones(1, numberOfIndices)];
     
     rotatedIndices = trans(center) * (R * (trans(-center) * indices));
     rotatedImage = zeros(m, n);
