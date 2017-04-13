@@ -29,5 +29,7 @@ function main()
     hold off;
     
     %% Question 3.1.1
-    rotateImage(img, 30, 'nearest');
+    rotatedImage = rotateImage(img, 30, 'linear');
+    imshow(rotatedImage)
+    
 end

@@ -1,6 +1,7 @@
-function A = rot(phi, t)
+%% Rotation Matrix
+function A = rot(phi)
 
-    A = [cos(phi), -sin(phi), t(1);
-         sin(phi), cos(phi),  t(2);
+    A = [cos(phi), -sin(phi), 0;
+         sin(phi), cos(phi),  0;
          0,        0,         1];
 end
