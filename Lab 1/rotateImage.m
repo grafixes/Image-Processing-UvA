@@ -2,22 +2,40 @@
 % Performs a rotation transformation with a 
 % specified angle on a provided image around
 % its center.
-function rotatedImage = rotateImage(image, angle, interpolationMethod)
+% If addMargins is enabled, then the dimensions after rotation of 
+% the image are calculated, together with the top and left margins 
+% (for correct positioning).
+function rotatedImage = rotateImage(image, angle, ...
+                        interpolationMethod, borderMethod, addMargins)
     
-    [m, n] = size(image);
-    phi = deg2rad(angle);
-    center = round(size(image)/2);
+    % Set periodic to be the default border method.
+    if ~exist('borderMethod', 'var'), borderMethod = 'periodic'; end
+    % Set the addMargins flag to false by default
+    if ~exist('addMargins', 'var'), addMargins = false; end
+    if addMargins
+        [m, n, topMargin, leftMargin] = imageRotationMargins(image, angle);
+    else
+        [m, n] = size(image);
+        topMargin = 0;
+        leftMargin = 0;
+    end
+    
+    center = round([m, n]/2);
     numberOfIndices = m*n;
     
-    R = rot(phi);
+    R = rot(angle);
     [X, Y] = meshgrid(1:n, 1:m);
     indices = [X(:)'; Y(:)'; ones(1, numberOfIndices)];
     
-    rotatedIndices = trans(center) * (R * (trans(-center) * indices));
+    % Added an additional translation for positioning the image
+    % after rotation if margins are specified.
+    rotatedIndices = trans(-[topMargin, leftMargin]) * ...
+                     trans(center) * (R * (trans(-center) * indices));
     rotatedImage = zeros(m, n);
     
     for i = 1:numberOfIndices
         rotatedImage(indices(2, i), indices(1, i)) = pixelValue(image, ...
-            rotatedIndices(1, i), rotatedIndices(2, i), interpolationMethod);
+            rotatedIndices(1, i), rotatedIndices(2, i), ...
+            interpolationMethod, borderMethod);
     end
 end
