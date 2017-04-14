@@ -9,7 +9,7 @@ function rotatedImage = rotateImage(image, angle, ...
                         interpolationMethod, borderMethod, addMargins)
     
     % Set periodic to be the default border method.
-    if ~exist('borderMethod', 'var'), borderMethod = 'periodic'; end
+    if ~exist('borderMethod', 'var'), borderMethod = 'constant'; end
     % Set the addMargins flag to false by default
     if ~exist('addMargins', 'var'), addMargins = false; end
     if addMargins
@@ -24,18 +24,18 @@ function rotatedImage = rotateImage(image, angle, ...
     numberOfIndices = m*n;
     
     R = rot(angle);
-    [X, Y] = meshgrid(1:n, 1:m);
+    [X, Y] = meshgrid(1:m, 1:n);
     indices = [X(:)'; Y(:)'; ones(1, numberOfIndices)];
     
     % Added an additional translation for positioning the image
     % after rotation if margins are specified.
     rotatedIndices = trans(-[topMargin, leftMargin]) * ...
                      trans(center) * (R * (trans(-center) * indices));
-    rotatedImage = zeros(m, n);
+    rotatedImage = zeros(n, m);
     
     for i = 1:numberOfIndices
         rotatedImage(indices(2, i), indices(1, i)) = pixelValue(image, ...
-            rotatedIndices(1, i), rotatedIndices(2, i), ...
+            rotatedIndices(2, i), rotatedIndices(1, i), ...
             interpolationMethod, borderMethod);
     end
 end

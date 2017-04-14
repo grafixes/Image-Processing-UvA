@@ -39,13 +39,13 @@ function main()
     % We've added an addMargins flag to rotateImage() which results
     % in a complete picture as output. See rotateImage() for further details.
     figure('name', 'Image after 45deg rotation w/ constant border method')
-    rotatedImage = rotateImage(img, pi/6, 'linear', 'constant', true);
+    rotatedImage = rotateImage(img, pi/4, 'linear', 'constant', true);
     imshow(rotatedImage)
     figure('name', 'Image after 45deg rotation w/ nearest border method')
-    rotatedImage = rotateImage(img, pi/6, 'linear', 'nearest', true);
+    rotatedImage = rotateImage(img, pi/4, 'linear', 'nearest', true);
     imshow(rotatedImage)
     figure('name', 'Image after 45deg rotation w/ periodic border method')
-    rotatedImage = rotateImage(img, pi/6, 'linear', 'periodic', true);
+    rotatedImage = rotateImage(img, pi/4, 'linear', 'periodic', true);
     imshow(rotatedImage)
     
     %% Question 3.1.4
@@ -62,17 +62,17 @@ function main()
     %% Question 3.1.5
     % The distance, between the original and interpolated version of 
     % the image is measured using Euclidean distance.
-    imgNearest = rotateImage(img, pi/6, 'nearest', 'constant', true);
-    imgNearest = rotateImage(imgNearest, -pi/6, 'nearest');
+    imgNearest = rotateImage(img, pi/4, 'nearest', 'constant', true);
+    imgNearest = rotateImage(imgNearest, -pi/4, 'nearest');
     figure('name', 'Image after double rotation w/ nearest interpolation')
     imshow(imgNearest)
     
-    imgLinear = rotateImage(img, pi/6, 'linear', 'constant', true);
-    imgLinear = rotateImage(imgLinear, -pi/6, 'linear');
+    imgLinear = rotateImage(img, pi/4, 'linear', 'constant', true);
+    imgLinear = rotateImage(imgLinear, -pi/4, 'linear');
     figure('name', 'Image after double rotation w/ linear interpolation')
     imshow(imgLinear)
  
-    borderedImage = borderImage(img, pi/6);
+    borderedImage = borderImage(img, pi/4);
     figure('name', 'Image w/ border')
     imshow(borderedImage)
     
@@ -83,6 +83,17 @@ function main()
     fprintf('Distance (nearest): %f; distance (linear): %f, distance difference: %f\n', ...
         distNearest, distLinear, distDiff);
    
-    %% Question 4.1.1
+    %% Question 4.1.1 / 4.1.3
+    % Check out the implementation of
+    % myAffine(image, x1, y1, x2, y2, x3, y3, m, n, method)
     
+    %% Question 4.1.2
+    [~, ~, topMargin, leftMargin] = imageRotationMargins(img, pi/4);
+    [height, width] = size(img);
+    figure('name', 'Image after affine transformation')
+    rotatedImage = myAffine(img, -topMargin, width/2, height/2, ...
+                   -leftMargin, height/2, width+leftMargin, height, width, 'linear');
+    imshow(rotatedImage)
+    
+    %% Question 5.
 end
