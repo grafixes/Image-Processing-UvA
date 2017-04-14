@@ -83,5 +83,6 @@ function main()
     fprintf('Distance (nearest): %f; distance (linear): %f, distance difference: %f\n', ...
         distNearest, distLinear, distDiff);
    
-    %% Question 4.
+    %% Question 4.1.1
+    
 end
