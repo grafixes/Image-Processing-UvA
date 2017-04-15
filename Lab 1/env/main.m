@@ -105,9 +105,9 @@ function main()
     
     %% Question 5.1.3
     flyers = im2double(imread('flyers.png'));
-	%figure('name', 'Unstraightened flyers');
-	%imshow(flyers)
-	%[x, y] = ginput(4)
+    %figure('name', 'Unstraightened flyers');
+    %imshow(flyers)
+    %[x, y] = ginput(4)
     x = [571.0000 356.5000 592.0000 817.0000];
     y = [190.2500 551.7500 583.2500 172.2500];
     
@@ -126,4 +126,6 @@ function main()
     M = estimateProjectionMatrix(xy, XYZ);
     imshow('calibrationpoints.jpg')
     drawCubes(M);
+    
+    %% Question 8.1.2
 end

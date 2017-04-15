@@ -1,4 +1,4 @@
-%% Pixel Value at 
+%% Pixel Value
 % Returns pixel value at specified (x,y) coordinates.
 function color = pixelValue(image, x, y, interpolationMethod, borderMethod)
     
