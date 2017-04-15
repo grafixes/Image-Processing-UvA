@@ -102,4 +102,20 @@ function main()
     %% Question 5.1.2 / 5.1.4
     % Check out the implementation of
     % myProjection(image, x1, y1, x2, y2, x3, y3, x4, y4, m, n, method)
+    
+    %% Question 5.1.3
+    flyers = im2double(imread('attachments/flyers.png'));
+	%figure('name', 'Unstraightened');
+	%imshow(flyers)
+	%[x, y] = ginput(4)
+    x = [571.0000 356.5000 592.0000 817.0000];
+    y = [190.2500 551.7500 583.2500 172.2500];
+    
+    figure('name', 'Frontal view of flyer');
+    transformedFlyers = myProjection(flyers, x(1), y(1), ...
+             x(2), y(2), x(3), y(3), x(4), y(4), 300, ...
+             400, 'linear');
+    imshow(transformedFlyers)
+    
+    %% Question 7.1.1 / 7.1.2
 end

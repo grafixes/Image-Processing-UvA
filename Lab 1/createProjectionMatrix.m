@@ -11,5 +11,6 @@ function projMatrix = createProjectionMatrix(xy, uv)
     Aevenrows = [z, z, z, x, y, o, -v.*x, -v.*y, -v];
     A = [Aoddrows; Aevenrows];
     
-    projMatrix = null(A);
+    kern = null(A);
+    projMatrix = reshape(kern, 3, 3)';
 end
