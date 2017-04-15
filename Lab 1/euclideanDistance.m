@@ -9,5 +9,6 @@ function distance = euclideanDistance(originalMatrix, newMatrix)
     assert(originalSize(1) == newSize(1), 'Matrices must be of same size.');
     assert(originalSize(2) == newSize(2), 'Matrices must be of same size.');
     
-    distance = sqrt(sum(originalMatrix(:) - newMatrix(:).^2));
+    D = pdist2(originalMatrix, newMatrix, 'euclidean');
+    distance = sqrt(sum(D(:)));
 end
