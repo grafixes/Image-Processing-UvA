@@ -95,5 +95,11 @@ function main()
                    -leftMargin, height/2, width+leftMargin, height, width, 'linear');
     imshow(rotatedImage)
     
-    %% Question 5.
+    %% Question 5.1.1
+    % Check out the implementation of
+    % createProjectionMatrix(xy, uv)
+
+    %% Question 5.1.2 / 5.1.4
+    % Check out the implementation of
+    % myProjection(image, x1, y1, x2, y2, x3, y3, x4, y4, m, n, method)
 end
