@@ -104,8 +104,8 @@ function main()
     % myProjection(image, x1, y1, x2, y2, x3, y3, x4, y4, m, n, method)
     
     %% Question 5.1.3
-    flyers = im2double(imread('attachments/flyers.png'));
-	%figure('name', 'Unstraightened');
+    flyers = im2double(imread('flyers.png'));
+	%figure('name', 'Unstraightened flyers');
 	%imshow(flyers)
 	%[x, y] = ginput(4)
     x = [571.0000 356.5000 592.0000 817.0000];
@@ -118,4 +118,12 @@ function main()
     imshow(transformedFlyers)
     
     %% Question 7.1.1 / 7.1.2
+    % Check out the implementation of estimateProjectionMatrix(xy, XYZ)
+    
+    %% Question 8.1.1
+    load calibrationpoints
+    figure('name', '3D cubes at callibrationpoints')
+    M = estimateProjectionMatrix(xy, XYZ);
+    imshow('calibrationpoints.jpg')
+    drawCubes(M);
 end

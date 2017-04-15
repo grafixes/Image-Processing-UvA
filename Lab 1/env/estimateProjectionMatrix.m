@@ -16,5 +16,5 @@ function M = estimateProjectionMatrix(xy, XYZ)
     [~, ~, V] = svd(A);
     m = V(:, end);
     % reshape m into the 3x4 projection matrix M
-    M = reshape(m, 3, 4)';
+    M = reshape(m, 4, 3)';
 end
