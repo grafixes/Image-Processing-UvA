@@ -128,5 +128,77 @@ function main()
     drawCubes(M);
     
     %% Question 8.1.2
+    XYZ = [0 5 5
+           0 3 5
+           0 1 5
+           1 0 5
+           3 0 5
+           5 0 5
+           0 5 3
+           0 3 3
+           0 1 3];
+       
+    % View 1
+    figure('name', 'Cubes on view 1')
+    imshow('view1.jpg');
+    %xy = ginput(9)
+    xy = [189.0000  345.0000
+          225.0000  351.0000
+          263.0000  356.0000
+          301.0000  356.0000
+          333.0000  350.0000
+          363.0000  343.0000
+          191.0000  396.0000
+          225.0000  400.0000
+          264.0000  407.0000];
+    M = estimateProjectionMatrix(xy, XYZ);
+    drawCubes(M);
     
+    % View 2
+    figure('name', 'Cubes on view 2')
+    imshow('view2.jpg');
+    %xy = ginput(9)
+    xy = [142.0000  350.0000
+          175.0000  354.0000
+          211.0000  358.0000
+          250.0000  356.0000
+          286.0000  348.0000
+          318.0000  341.0000
+          145.0000  399.0000
+          178.0000  404.0000
+          215.0000  409.0000];
+    M = estimateProjectionMatrix(xy, XYZ);
+    drawCubes(M);
+    
+    % View 3
+    figure('name', 'Cubes on view 3')
+    imshow('view3.jpg');
+    %xy = ginput(9)
+    xy = [190.0000  351.0000
+          220.0000  355.0000
+          253.0000  360.0000
+          292.0000  359.0000
+          330.0000  353.0000
+          366.0000  346.0000
+          192.0000  399.0000
+          222.0000  405.0000
+          255.0000  412.0000];
+    M = estimateProjectionMatrix(xy, XYZ);
+    drawCubes(M);
+    
+    % View 4
+    figure('name', 'Cubes on view 4')
+    imshow('view4.jpg');
+    %xy = ginput(9)
+    xy = [136   358
+          164   362
+          193   367
+          232   366
+          275   357
+          313   350
+          139   407
+          167   413
+          196   418];
+    M = estimateProjectionMatrix(xy, XYZ);
+    drawCubes(M);
 end
