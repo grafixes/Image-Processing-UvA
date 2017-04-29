@@ -1,4 +1,4 @@
-%% gD
+%% Gaussian Derivatives
 function result = gD(image, sigma, xorder, yorder)
     % An appropriate grid size would be 3 times sigma.
     radius = round(3*sigma);
