@@ -92,4 +92,89 @@ function main()
     imshow(F, []);
     
     %% Question 3.1
+    % See report for the analytically calculated derivatives.
+    % fx = AVcos(Vx)
+    % fy = -BWsin(Wy)
+    % fxx = -AV^{2}sin(Vx)
+    % fyy = -BW^2cos(Wy)
+    % fxy = 0
+    
+    %% Question 3.2
+    clear
+    
+    x = -100:100;
+    y = -100:100;
+    [X, Y] = meshgrid(x, y);
+    A = 1; B = 2; V = 6*pi/201; W = 4*pi/201; 
+    F = A * sin(V*X) + B * cos(W*Y);
+    imshow(F, [], 'xData', x, 'yData', y);
+    
+    % Calculation of the partial derivative of f
+    % with respect to x.
+    Fx = A*V*cos(V*X);
+    figure
+    imshow(Fx, [], 'xData', x, 'yData', y);
+    % Calculation of the partial derivative of f
+    % with respect to y.
+    Fy = -B*W*sin(W*Y);
+    figure
+    imshow(Fy, [], 'xData', x, 'yData', y);
+    
+    %% Question 3.3
+    xx = -100:10:100;
+    yy = -100:10:100;
+    [XX, YY] = meshgrid(xx, yy);
+    Fx = A*V*cos(V*XX);
+    Fy = -B*W*sin(W*YY);
+    imshow(F, [], 'xData', x, 'yData', y);
+    hold on;
+    quiver(xx, yy, Fx, Fy, 'r');
+    hold off;
+    
+    %% Question 3.4
+    Gx = gD(F, 1, 1, 0);
+    Gy = gD(F, 1, 0, 1);
+    sub_Gx = Gx(xx + 101, yy + 101);
+    sub_Gy = Gy(xx + 101, yy + 101);
+    figure
+    imshow(F, [], 'xData', x, 'yData', y);
+    hold on;
+    quiver(xx, yy, sub_Gx, sub_Gy, 'r');
+    hold off;
+    
+    %% Question 3.5
+    img = im2double(imread('cameraman.tif'));
+    % rotate the image usingcode from the previous assignment
+    F = rotateImage(img, degtorad(10), 'linear');
+    % calculate the derivates appropriate to F
+    Fx = gD(F, 1, 1, 0);
+    Fy = gD(F, 1, 0, 1);
+    figure
+    imshow(F);
+    hold on
+    % draw gradient vectors inside the image
+    quiver( Fx, Fy, 'r');
+    
+    %% Question 3.6
+    % See report for the analytically calculated derivatives 
+    % for fw and fww.
+    
+    %% Question 3.7
+    % See the implementation of canny(image, sigma)
+    
+    %% Question 3.8
+    % Use the canny edge detector on the picture cameraman.tif
+    img = im2double(imread('cameraman.tif'));
+    e = canny(img, 1);
+    figure
+    imshow(e);
+    figure
+    imshow(~e);
+    
+    %% Question 3.9
+    % Use the corner detector to detect the corners in chess2.jpg
+    img = im2double(imread('chess2.jpg'));
+    c = cornerDetector(img, 1);
+    figure
+    imshow(c);
 end
