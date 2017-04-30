@@ -105,6 +105,7 @@ function main()
     
     %% Question 5.1.3
     flyers = im2double(imread('flyers.png'));
+    imshow(flyers)
     %figure('name', 'Unstraightened flyers');
     %imshow(flyers)
     %[x, y] = ginput(4)

@@ -177,4 +177,5 @@ function main()
     c = cornerDetector(img, 1);
     figure
     imshow(c);
+    
 end
