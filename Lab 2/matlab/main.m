@@ -41,8 +41,7 @@ function main()
         sigmas(i) = totalRunTime / reps;
     end
     figure
-    plot(sigmas);
-    
+    plot(sigmas);    
     %% Question 2.6
     % The order of the computational complexity seems to be quadratic.
     
@@ -74,8 +73,7 @@ function main()
         sigmas(i) = totalRunTime / reps;
     end
     figure
-    plot(sigmas);
-    
+    plot(sigmas);    
     %% Question 2.10
     % See the implementation of gD(image, sigma, xorder, yorder).
     figure

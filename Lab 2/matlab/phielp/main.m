@@ -59,10 +59,78 @@ hold off;
 
 legend('2D', '1D');
 
-% derivatives
+%% derivatives
 
 figure;
-imshow(gD(im,0.5,1,2));
+imshow(gD(im,0.5,1,2),[]);
+
+% figure
+% F = gD(im, 1, 2, 2);
+% imshow(F, []);
+    
+%% 3. Canny Edge Detector
+
+%% 3.2
+x = -100:100;
+y = -100:100;
+[X, Y] = meshgrid(x,y);
+
+A = 1; B = 2; V = 6*pi/201; W = 4*pi/201;
+F = A * sin(V*X) + B * cos(W*Y);
+Fx = A * V * cos(V * X);
+Fy = -B * W * sin(W * Y);
+Fxx = -(A * V)^2 * sin(V * X);
+Fyy = -(B * W)^2 * cos(W * Y);
+
+figure;
+subplot(2,3,1);
+imshow(F, [], 'xData', x, 'yData', y);
+title('original');
+subplot(2,3,2);
+imshow(Fx, [], 'xData', x, 'yData', y);
+title('1st order derivative in x-dir.');
+subplot(2,3,3);
+imshow(Fy, [], 'xData', x, 'yData', y);
+title('1st order derivative in y-dir.');
+subplot(2,3,4);
+imshow(Fxx, [], 'xData', x, 'yData', y);
+title('2nd order derivative in x-dir.');
+subplot(2,3,5);
+imshow(Fyy, [], 'xData', x, 'yData', y);
+title('2nd order derivative in y-dir.');
+
+%% 3.3
+
+xx = -100:10:100;
+yy = -100:10:100;
+[XX, YY] = meshgrid(xx, yy);
+
+A = 1; B = 2; V = 6*pi/201; W = 4*pi/201;
+F = A * sin(V*X) + B * cos(W*Y);
+Fx = A * V * cos(V * XX);
+Fy = -B * W * sin(W * YY);
+
+imshow(F, [], 'xData', x, 'yData', y);
+hold on;
+quiver(xx, yy, Fx, Fy, 'x');
+hold off;
+
+%% 3.4
+
+xx = -100:10:100;
+yy = -100:10:100;
+[XX, YY] = meshgrid(xx, yy);
+
+A = 1; B = 2; V = 6*pi/201; W = 4*pi/201;
+F = A * sin(V*X) + B * cos(W*Y);
+Gx = gD(F, 1, 1, 0);
+Gy = gD(F, 1, 0, 1);
+
+imshow(F, [], 'xData', x, 'yData', y);
+hold on;
+quiver(xx, yy, Gx, Gy, 'x');
+hold off;
 
 end
+
 
