@@ -17,15 +17,18 @@
 %   h - The Hough transform
 function H = hough(im, Thresh, nrho, ntheta)
 
-    BW = edge(im, 'Canny', Thresh); % built-in implementation
+    BW = edge(im, 'Canny', Thresh);
     [y, x] = find(BW);
     [rows, cols] = size(im);
     H = zeros(nrho, ntheta);
     
-    rhomax = sqrt(rows^2 + cols^2); 
-    drho = 2*rhomax/(nrho-1);
-    dtheta = pi/ntheta;
-    thetas = [0:dtheta:(pi-dtheta)];
+    rhomax = sqrt(rows^2 + cols^2);    % The maximum possible value of rho.
+    drho = 2*rhomax/(nrho-1);          % The increment in rho between successive
+                                       % entries in the accumulator matrix .
+                                       % Remember we go between + - rhomax .
+    dtheta = pi/ntheta;                % The increment in theta between entries .
+    thetas = [0:dtheta:(pi - dtheta)]; % Array of theta values across the
+                                       % accumulator matrix .
 
     for i = [x';y']
         for theta = thetas
