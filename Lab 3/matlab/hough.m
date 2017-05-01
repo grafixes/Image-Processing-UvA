@@ -1,7 +1,8 @@
 function accumulator = hough(im, nrho, ntheta)
 
-% points = canny(im, 1);
-points = edge(im, 'Canny');
+% points = canny(im, 1); % own implementation
+points = edge(im, 'Canny'); % built-in implementation
+
 accumulator = zeros(nrho, ntheta);
 [y, x] = find(points);
 rows = size(im, 1)
