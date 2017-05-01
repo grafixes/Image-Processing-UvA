@@ -2,34 +2,44 @@
 % Max Bos (10669027) and Haischel Dabian ()
 
 function main()
+
     close all
-    image = rgb2gray(im2double(imread('shapes.png')));
-
-    %% Question 2.1a
-    % canny edge detector from lab 2
-	e1 = canny(image, 1);
-    size(e1)
     
-    % built in canny edge detector
-    imBin = imbinarize(image);
-	e2 = edge(imBin,'Canny');
-    size(e2)
-
-    % show results
-	figure;
-	subplot(1,2,1);
-	imshow(e1);
-	subplot(1,2,2);
-	imshow(e2);
+    %% (Sec.2.1) Implementation of hough function
+    % Write a function, hough that meets 
+    % the specification in Listing 1.
+    % See hough.m for the implementation.
     
-    %% Question 2.1b
+    %% (Sec.2.2) Perform Hough transform on some images
+    img = rgb2gray(imread('shapes.png'));
+    H = hough(img, [0, 0.9], 200, 200);
+    figure('name', 'Section 2: Perform Hough transform on some images');
+    subplot(1, 2, 1);
+    imshow(img);
+    subplot(1, 2, 2);
+    imshow(H, []);
     
-    % works for built-in Canny edge detector
-    accumulator = hough(imBin, 100, 100);
+    img = rgb2gray(imread('box.png'));
+    H = hough(img, [0, 0.9], 200, 200);
+    figure('name', 'Section 2: Perform Hough transform on some images');
+    subplot(1, 2, 1);
+    imshow(img);
+    subplot(1, 2, 2);
+    imshow(H, []);
     
-    figure;
-    subplot(1,2,1);
-    imshow(image);
-    subplot(1,2,2);
-    imshow(accumulator, []);
+    img = rgb2gray(imread('billboard.png'));
+    H = hough(img, [0, 0.9], 200, 200);
+    figure('name', 'Section 2: Perform Hough transform on some images');
+    subplot(1, 2, 1);
+    imshow(img);
+    subplot(1, 2, 2);
+    imshow(H, []);
+    
+    img = rgb2gray(imread('szeliski.png'));
+    H = hough(img, [0, 0.9], 200, 200);
+    figure('name', 'Section 2: Perform Hough transform on some images');
+    subplot(1, 2, 1);
+    imshow(img);
+    subplot(1, 2, 2);
+    imshow(H, []);
 end
