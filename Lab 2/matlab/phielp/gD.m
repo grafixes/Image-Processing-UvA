@@ -1,6 +1,6 @@
 function gaussDer = gD(f, sigma, xorder, yorder)
 
-    M = 2 * sigma;
+    M = round(3 * sigma);
     X = -M:M;
     G = Gauss1(sigma);
     Gx = G;

@@ -1,8 +1,8 @@
 function gauss = Gauss(sigma)
 
 % choose range
-M = 2 * sigma;
-N = 2 * sigma;
+M = ceil(3 * sigma);
+N = ceil(3 * sigma);
 x = -M:M;
 y = -N:N;
 
@@ -10,7 +10,8 @@ y = -N:N;
 [X, Y] = meshgrid(x, y);
 
 % calculate Gaussian 
-gauss = exp(-X.^2/(2*sigma^2)-Y.^2/(2*sigma^2));
-gauss=gauss./sum(gauss(:));
+gauss = exp(-X.^2 ./(2*sigma^2)-Y.^2/(2*sigma^2));
+gauss = gauss./ (2*pi*sigma)^2;
+gauss = (1/sum(gauss(:))) * gauss;
 
 end
