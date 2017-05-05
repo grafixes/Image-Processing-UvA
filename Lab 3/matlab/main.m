@@ -42,4 +42,26 @@ function main()
     imshow(img);
     subplot(1, 2, 2);
     imshow(H, []);
+    
+    %% (Sec.3) Implementation of houghlines function
+    % Write a function with the specification in Listing 2.
+    % Dilation is added to the houghlines function.
+    % See the implementation of houghlines().
+    img = rgb2gray(imread('shapes.png'));
+    H = hough(img, [0, 0.9], 200, 200);
+    lines = houghlines(img, H, 75);
+    
+    figure('name', 'Section 3: Finding the Lines as Local Maxima');
+    imshow(img);
+    hold on
+    x1 = 0;
+    x2 = size(img, 2);
+    for i = 1:length(lines)
+        line = lines(i,:);
+        y1 = (-line(1)*x1-line(3))/line(2);
+        y2 = (-line(1)*x2-line(3))/line(2);
+        xy = [x1 y1; x2 y2];
+        plot(xy(:,1), xy(:,2), 'Color', 'b');
+    end
+    hold off
 end

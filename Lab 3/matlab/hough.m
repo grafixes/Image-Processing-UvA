@@ -14,7 +14,7 @@
 %   ntheta - Number of quantised levels of theta to use
 %
 % returns;
-%   h - The Hough transform
+%   H - The Hough transform
 function H = hough(im, Thresh, nrho, ntheta)
 
     BW = edge(im, 'Canny', Thresh);
@@ -29,11 +29,11 @@ function H = hough(im, Thresh, nrho, ntheta)
     dtheta = pi/ntheta;                % The increment in theta between entries .
     thetas = [0:dtheta:(pi - dtheta)]; % Array of theta values across the
                                        % accumulator matrix .
-
+    
     for i = [x';y']
         for theta = thetas
             rho = i(1) * sin(theta) - i(2) * cos(theta);
-            rhoindex = round(rho/drho + nrho/2); 
+            rhoindex = round(rho/drho + nrho/2);
             thetaindex = round(theta/dtheta + 1);
             H(rhoindex, thetaindex) = H(rhoindex, thetaindex) + 1;
         end
