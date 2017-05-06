@@ -49,21 +49,10 @@ function main()
     % See the implementation of houghlines(image, H, thresh, dilate).
     img = rgb2gray(imread('shapes.png'));
     H = hough(img, [0, 0.9], 200, 200);
-    lines = houghlines(img, H, 0.4, false);
+    lines = houghlines(img, H, 0.4, true);
     
-    figure('name', 'Section 3: Finding the Lines as Local Maxima');
-    imshow(img);
-    hold on
-    x1 = 0;
-    x2 = size(img, 2);
-    for i = 1:length(lines)
-        line = lines(i,:);
-        y1 = (-line(1)*x1-line(3))/line(2);
-        y2 = (-line(1)*x2-line(3))/line(2);
-        xy = [x1 y1; x2 y2];
-        plot(xy(:,1), xy(:,2), 'Color', 'b');
-    end
-    hold off
+    display_hough_lines(lines, img, ...
+        'Section 3: Finding the Lines as Local Maxima');
     
     %% (Sec.5) Optimal Line Estimation
     img = rgb2gray(imread('shapes.png'));
@@ -77,18 +66,42 @@ function main()
         lines(i,:) = line_through_points(pts);
     end
     
-    figure('name', 'Section 5: Optimal Line Estimation');
+    display_hough_lines(lines, img, ...
+        'Section 5: Optimal Line Estimation');
+    
+    %% (Sec.6) Using the Lines - Better Straightening
+    img = rgb2gray(imread('szeliski.png'));
+    Thresh = [0, 0.9];
+    H = hough(img, Thresh, 200, 200);
+    lines = houghlines(img, H, 0.4, true);
+    [y, x] = find(edge(img, 'Canny', Thresh) > 0);
+    
+    for i = 1:size(lines, 1)
+        pts = points_of_line([x, y], lines(i,:), 10);
+        lines(i,:) = line_through_points(pts);
+    end
+    
+    display_hough_lines(lines, img, ...
+        'Section 6: szeliski.png optimal Hough lines');
+    
+    % Method 1: you can use pairs of lines to produce their intersection.
+    intersecs = [];
+    for i = 1:length(lines)
+        for j = 1+i:length(lines)
+            intersec_pnt = cross(lines(i,:), lines(j,:));
+            intersecs = [intersecs; intersec_pnt/intersec_pnt(3)];
+        end
+    end
+    
+    figure('name', 'Section 6: Intersections');
     imshow(img);
     hold on
-    x1 = 0;
-    x2 = size(img, 2);
-    for i = 1:length(lines)
-        line = lines(i,:);
-        y1 = (-line(1)*x1-line(3))/line(2);
-        y2 = (-line(1)*x2-line(3))/line(2);
-        xy = [x1 y1; x2 y2];
-        plot(xy(:,1), xy(:,2), 'Color', 'b');
+    for i = 1:length(intersecs)
+        plot(intersecs(i, 1), intersecs(i, 2), 'r+');
     end
     hold off
+    
+    % Method 2: use the estimated lines immediately, because the 4 
+    % lines you found also determine the projective transformation.
     
 end
