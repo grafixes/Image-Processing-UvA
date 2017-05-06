@@ -1,5 +1,5 @@
 %% Exercise 3
-% Max Bos (10669027) and Haischel Dabian ()
+% Max Bos (10669027) and Haischel Dabian (10336230)
 
 function main()
 
@@ -46,10 +46,10 @@ function main()
     %% (Sec.3) Implementation of houghlines function
     % Write a function with the specification in Listing 2.
     % Dilation is added to the houghlines function.
-    % See the implementation of houghlines().
+    % See the implementation of houghlines(image, H, thresh, dilate).
     img = rgb2gray(imread('shapes.png'));
     H = hough(img, [0, 0.9], 200, 200);
-    lines = houghlines(img, H, 75);
+    lines = houghlines(img, H, 0.4, true);
     
     figure('name', 'Section 3: Finding the Lines as Local Maxima');
     imshow(img);
@@ -64,4 +64,5 @@ function main()
         plot(xy(:,1), xy(:,2), 'Color', 'b');
     end
     hold off
+    
 end

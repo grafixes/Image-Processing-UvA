@@ -1,3 +1,4 @@
+%% THETARHO2ENDPOINTS
 function [x1, y1, x2, y2] = thetarho2endpoints(theta, rho, rows, cols)
     x1 = 0;
     x2 = cols;

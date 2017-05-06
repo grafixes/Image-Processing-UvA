@@ -10,7 +10,7 @@
 %       H       - Its Hough Transform
 %       thresh  - The threshold level to use in the Hough Transform
 %                 to decide whether an edge is significant
-function [lines] = houghlines(im, H, thresh)
+function [lines] = houghlines(im, H, thresh, dilate)
     
     [rows, cols] = size(im);
     rhomax = sqrt(rows^2 + cols^2);
@@ -18,13 +18,17 @@ function [lines] = houghlines(im, H, thresh)
     drho = 2*rhomax/(nrho-1);
     dtheta = pi/ntheta;
     
-    % Threshold the Hough Transform
+    % Dilate the Hough Transform
+    if dilate
+        SE = strel('square', 2);
+        H = imdilate(H, SE);
+    end
+    % Normalize the Hough Transform to range from 0 to 1
+    H = normalize(H);
+    % Threshold the Hough Transform for a value between 0 and 1
     H(H < thresh) = 0;
-    % Dilate the image
-    SE = strel('square', 3);
-    H = imdilate(H, SE);
     % Form labeled connected components
-    [L, nregions] = bwlabel(H, 4);
+    [L, nregions] = bwlabel(H);
     % Allocate the Nx3 matrix of homogeneous line coordinates
     lines = zeros(nregions, 3);
     
@@ -42,8 +46,8 @@ function [lines] = houghlines(im, H, thresh)
         % Calculate the endpoints
         [x1, y1, x2, y2] = thetarho2endpoints(theta, rho, rows, cols);
         % Get the homogeneous line coordinates using the cross product
-        hom_line_coords = cross([x1; y1; 1], [x2; y2; 1])
+        hom_line_coords = cross([x1; y1; 1], [x2; y2; 1]);
         lines(n,:) = hom_line_coords ./ sqrt(hom_line_coords(1)^2 + ...
-            hom_line_coords(2)^2)
+            hom_line_coords(2)^2);
     end
 end
