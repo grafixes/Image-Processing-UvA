@@ -59,49 +59,77 @@ function main()
     Thresh = [0, 0.9];
     H = hough(img, Thresh, 200, 200);
     lines = houghlines(img, H, 0.4, true);
-    [y, x] = find(edge(img, 'Canny', Thresh) > 0);
-    
-    for i = 1:size(lines, 1)
-        pts = points_of_line([x, y], lines(i,:), 10);
-        lines(i,:) = line_through_points(pts);
-    end
+    lines = optimal_lines_estimation(img, Thresh, lines);
     
     display_hough_lines(lines, img, ...
         'Section 5: Optimal Line Estimation');
     
-    %% (Sec.6) Using the Lines - Better Straightening
+    %% (Sec.6.1.1) Method 1: you can use pairs of lines to produce their 
+    % intersection.
     img = rgb2gray(imread('szeliski.png'));
     Thresh = [0, 0.9];
     H = hough(img, Thresh, 200, 200);
     lines = houghlines(img, H, 0.4, true);
-    [y, x] = find(edge(img, 'Canny', Thresh) > 0);
-    
-    for i = 1:size(lines, 1)
-        pts = points_of_line([x, y], lines(i,:), 10);
-        lines(i,:) = line_through_points(pts);
-    end
+    lines = optimal_lines_estimation(img, Thresh, lines);
     
     display_hough_lines(lines, img, ...
         'Section 6: szeliski.png optimal Hough lines');
+ 
+    intersecs = intersections(size(img), lines);
+    display_intersections(intersecs, img, 'Section 6: Intersections');
     
-    % Method 1: you can use pairs of lines to produce their intersection.
-    intersecs = [];
-    for i = 1:length(lines)
-        for j = 1+i:length(lines)
-            intersec_pnt = cross(lines(i,:), lines(j,:));
-            intersecs = [intersecs; intersec_pnt/intersec_pnt(3)];
-        end
-    end
+    %% (Sec.6.1.4) Method 2: use the estimated lines immediately, because 
+    % the 4 lines you found also determine the projective transformation.
     
-    figure('name', 'Section 6: Intersections');
-    imshow(img);
-    hold on
-    for i = 1:length(intersecs)
-        plot(intersecs(i, 1), intersecs(i, 2), 'r+');
-    end
-    hold off
+    %% (Sec.6.1.5) - Use the Hough transform to detect lines and
+    % straighten some of the images in the attachment.
+    % Straightening of sleziski.png
+    img = rgb2gray(imread('szeliski.png'));
+    Thresh = [0, 0.9];
+    H = hough(img, Thresh, 200, 200);
+    lines = houghlines(img, H, 0.4, true);
+    lines = optimal_lines_estimation(img, Thresh, lines);
     
-    % Method 2: use the estimated lines immediately, because the 4 
-    % lines you found also determine the projective transformation.
+	display_hough_lines(lines, img, ...
+        'Section 6: szeliski.png optimal Hough lines');
     
+    intersecs = intersections(size(img), lines);
+    display_intersections(intersecs, img, ...
+        'Section 6.1.5: szeliski.png intersections');
+    
+    szeliski = im2double(imread('szeliski.png'));
+    figure('name', 'Frontal view of szeliski.png');
+    transformedSzeliski = myProjection(szeliski, ...
+        intersecs(1,1), intersecs(1,2), ...
+        intersecs(2,1), intersecs(2,2), ...
+        intersecs(4,1), intersecs(4,2), ...
+        intersecs(3,1), intersecs(3,2), ... 
+        300, 400, 'linear');
+    imshow(transformedSzeliski)
+    
+    %% (Sec.6.1.5) - Use the Hough transform to detect lines and
+    % straighten some of the images in the attachment.
+    % Straightening of billboard.png
+    img = rgb2gray(imread('billboard.png'));
+    Thresh = [0.23, 0.9];
+    H = hough(img, Thresh, 300, 300);
+    lines = houghlines(img, H, 0.6, true);
+    lines = optimal_lines_estimation(img, Thresh, lines);
+    
+    display_hough_lines(lines, img, ...
+        'Section 6: billboard.png optimal Hough lines');
+ 
+    intersecs = intersections(size(img), lines);
+     display_intersections(intersecs, img, ...
+         'Section 6.1.5: billboard.png intersections');
+     
+     billboard = im2double(imread('billboard.png'));
+     figure('name', 'Frontal view of billboard.png');
+     transformedBillboard = myProjection(billboard, ...
+         intersecs(4,1), intersecs(4,2), ...
+         intersecs(2,1), intersecs(2,2), ...
+         intersecs(1,1), intersecs(1,2), ...
+         intersecs(3,1), intersecs(3,2), ... 
+         400, 200, 'linear');
+     imshow(transformedBillboard)
 end
