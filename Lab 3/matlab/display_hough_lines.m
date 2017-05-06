@@ -1,5 +1,6 @@
 %% DISPLAY HOUGH LINES
 function display_hough_lines(lines, img, name)
+
     figure('name', name);
     imshow(img);
     hold on
