@@ -49,9 +49,35 @@ function main()
     % See the implementation of houghlines(image, H, thresh, dilate).
     img = rgb2gray(imread('shapes.png'));
     H = hough(img, [0, 0.9], 200, 200);
-    lines = houghlines(img, H, 0.4, true);
+    lines = houghlines(img, H, 0.4, false);
     
     figure('name', 'Section 3: Finding the Lines as Local Maxima');
+    imshow(img);
+    hold on
+    x1 = 0;
+    x2 = size(img, 2);
+    for i = 1:length(lines)
+        line = lines(i,:);
+        y1 = (-line(1)*x1-line(3))/line(2);
+        y2 = (-line(1)*x2-line(3))/line(2);
+        xy = [x1 y1; x2 y2];
+        plot(xy(:,1), xy(:,2), 'Color', 'b');
+    end
+    hold off
+    
+    %% (Sec.5) Optimal Line Estimation
+    img = rgb2gray(imread('shapes.png'));
+    Thresh = [0, 0.9];
+    H = hough(img, Thresh, 200, 200);
+    lines = houghlines(img, H, 0.4, true);
+    [y, x] = find(edge(img, 'Canny', Thresh) > 0);
+    
+    for i = 1:size(lines, 1)
+        pts = points_of_line([x, y], lines(i,:), 10);
+        lines(i,:) = line_through_points(pts);
+    end
+    
+    figure('name', 'Section 5: Optimal Line Estimation');
     imshow(img);
     hold on
     x1 = 0;
