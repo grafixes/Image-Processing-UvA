@@ -1,4 +1,9 @@
 %% POINTS OF LINE
+%
+% Collects the points close to a line found by the Hough transform, 
+% within a distance of epsilon.
+%
+% arguments:
 %   points  - an array containing all points
 %   line    - the homogeneous representation of the line
 %   epsilon - the maximum distance

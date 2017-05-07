@@ -78,9 +78,10 @@ function main()
     intersecs = intersections(size(img), lines);
     display_intersections(intersecs, img, 'Section 6: Intersections');
     
+    %% (Sec.6.1.2 / Sec.6.1.3) See the report
+    
     %% (Sec.6.1.4) Method 2: use the estimated lines immediately, because 
     % the 4 lines you found also determine the projective transformation.
-    
     
     %% (Sec.6.1.5) - Use the Hough transform to detect lines and
     % straighten some of the images in the attachment.

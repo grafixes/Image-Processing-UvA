@@ -12,6 +12,8 @@
 %                 to decide whether an edge is significant
 function [lines] = houghlines(im, H, thresh, dilate)
     
+    % Recalculate rhomax from the size of the image and, from the 
+    % number of rows and columns in h recalculate drho and dtheta.
     [rows, cols] = size(im);
     rhomax = sqrt(rows^2 + cols^2);
     [nrho, ntheta] = size(H);
@@ -25,7 +27,7 @@ function [lines] = houghlines(im, H, thresh, dilate)
     end
     % Normalize the Hough Transform to range from 0 to 1
     H = normalize(H);
-    % Threshold the Hough Transform for a value between 0 and 1
+    % Threshold the Hough Transform, values lower than 'thresh' become 0
     H(H < thresh) = 0;
     % Form labeled connected components
     [L, nregions] = bwlabel(H);
