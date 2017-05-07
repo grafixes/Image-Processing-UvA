@@ -1,4 +1,8 @@
 %% THETARHO2ENDPOINTS
+% NOTE:
+% The drawing of the lines is not done inside this function. Displaying
+% the returned result from houghlines can be done by using
+% display_hough_lines().
 function [x1, y1, x2, y2] = thetarho2endpoints(theta, rho, rows, cols)
     x1 = 0;
     x2 = cols;

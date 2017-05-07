@@ -32,9 +32,9 @@ function H = hough(im, Thresh, nrho, ntheta)
     thetas = [0:dtheta:(pi - dtheta)]; % Array of theta values across the
                                        % accumulator matrix .
     
-    % For each edge point (xi,yi) in the image we let the parameter θ 
-    % equal each of the allowed discretized values of θ, and solve for
-    % the corresponding ρ.
+    % For each non-zero edge point (xi,yi) in the image we let the 
+    % parameter θ equal each of the allowed discretized values of θ, 
+    % and solve for the corresponding ρ.
     for i = [x';y']
         for theta = thetas
             rho = i(1) * sin(theta) - i(2) * cos(theta);
