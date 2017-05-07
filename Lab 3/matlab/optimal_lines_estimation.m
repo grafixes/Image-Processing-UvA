@@ -1,5 +1,4 @@
 %% OPTIMAL LINES ESTIMATION
-%
 % Uses the resulting lines (from houghlines) to select which points to 
 % group into a line, and from those determines the best line using 
 % a least-square-fit.
