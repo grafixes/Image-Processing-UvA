@@ -3,6 +3,7 @@
 
 function main()
 
+    clear
     close all
     
     %% (Sec.2.1) Implementation of hough function
