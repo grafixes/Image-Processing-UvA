@@ -49,7 +49,8 @@ function main()
                F2(2, matches(2, :)); 
                ones(1, length(F2(1, matches(2, :))))]; 
     % check the difference between the projection matrix and the correct coords      
-    display(transformedCoords - correct);      
+    display(transformedCoords - correct); 
+    
     % The matrix is a good approximation of the mapping from keypoint. The 
     % difference between the correct coordination of the correct matches and 
     % the transformed coordination is not very high. This is because the matches 
@@ -64,7 +65,9 @@ function main()
     end
     display(result);
     
-    %% Mosaic
+    %% Mosaic Experiment 1
     mosaic('nachtwacht1.jpg', 'nachtwacht2.jpg', 4, 20, 1, 0.5);
-    mosaic('ankor1.jpg', 'ankor2.jpg',4, 20, 1, 0.4);
+    
+    %% Mosaic Experiment 2
+    mosaic('ankor1.jpg', 'ankor2.jpg', 4, 20, 1, 0.4);
 end
