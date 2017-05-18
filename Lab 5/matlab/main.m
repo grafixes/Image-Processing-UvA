@@ -66,7 +66,8 @@ function main()
         % calculate the Euclidean distance between the training images 
         % (Principal Components) and the test image (Principal Component)
         distance = sqrt(sum((PC-test_img).^2, 2));
-        % sort the distance vector to get the minimal distance
+        % retrieve the index of the training image most similar to
+        % the test image
         [~, min_distance_idx] = min(distance);
         % calculate the Euclidean distance between the correct test
         % image position and the found similar training image position
