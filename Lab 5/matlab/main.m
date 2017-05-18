@@ -44,7 +44,8 @@ function main()
     
     %% (Sec.3.1) Project both the training and test set onto the
     % PCA components, yielding the reduced representation 
-    % of the images.
+    % of the images. Find the closest image in the training set and
+    % evaluate your accuracy.
     accuracy = nearest_neighbour(images, 300, 100)
     
     %% Would results improve if we were to remove the nearly black
