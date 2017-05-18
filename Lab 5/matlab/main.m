@@ -79,4 +79,11 @@ function main()
     end
     
     accuracy = closest_found / test_n
+    
+    %% What if we were to leave out the PCA step? The Nearest Neighbour
+    % algorithm is able to handle all 16800 dimensions computationally.
+    % But will it work on the raw images, or suffer from the curse 
+    % of dimensionality? Try it!
+    
+    
 end
