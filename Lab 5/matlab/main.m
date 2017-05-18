@@ -11,22 +11,17 @@ function main()
     
     % Split our dataset into a 'training' set of 300 images 
     % and a test set containing the rest.
-    train_n = 300;
-    test_n = 550-train_n;
-    train_set = images(1:train_n);
-    test_set = images((train_n+1):550);
+    [train_set, test_set] = separate_data(images, 300);
     
     % Construct a matrix X, containing the train data with size n by d
     % with n the number of datapoints and d the number of data 
     % dimensions (16800 for our vectorized images).
     X = data_matrix(train_set);
-    test_X = data_matrix(test_set);
     
     %% (Sec.2.1) Apply PCA to our dataset to reduce dimensionality of 
     % the data to d, making d a configureable parameter.
-    
     % Apply PCA to our X matrix, with a d of 100.
-    [Y, PC, D] = pca(X, 100);
+    [Y, ~, D] = pca(X, 100);
     
     %% (Sec.2.2) Plot the first 9 PCA vectors as images
     % Get the first 9 PCA vectors.
@@ -50,35 +45,20 @@ function main()
     %% (Sec.3.1) Project both the training and test set onto the
     % PCA components, yielding the reduced representation 
     % of the images.
+    accuracy = nearest_neighbour(images, 300, 100)
     
-    imagestruct = [images{:}];
-    positions = vertcat(imagestruct.position);
+    %% Would results improve if we were to remove the nearly black
+    % borders of our images? Why?
+    % - The results of removing the black border would be very small,
+    % since the removal of this border would not have a big impact on 
+    % the variance.
     
-    % project the test set onto the PCA component
-    test_PC = (Y * minus_mean(test_X)')';
-    
-    % for each image in the test set, find the closest image 
-    % in the training set
-    closest_found = 0;
-    for i = 1:test_n
-        % get the test image
-        test_img = test_PC(i, :);
-        % calculate the Euclidean distance between the training images 
-        % (Principal Components) and the test image (Principal Component)
-        distance = sqrt(sum((PC-test_img).^2, 2));
-        % retrieve the index of the training image most similar to
-        % the test image
-        [~, min_distance_idx] = min(distance);
-        % calculate the Euclidean distance between the correct test
-        % image position and the found similar training image position
-        pos_distance = sqrt(sum((positions(train_n + i, :) - ...
-            positions(min_distance_idx, :)).^2));
-        if pos_distance < 150
-            closest_found = closest_found + 1;
-        end
-    end
-    
-    accuracy = closest_found / test_n
+    %% Experiment with the number of PCA components used when positioning
+    accuracy = nearest_neighbour(images, 300, 10)
+    accuracy = nearest_neighbour(images, 300, 50)
+    accuracy = nearest_neighbour(images, 300, 100)
+    accuracy = nearest_neighbour(images, 300, 200)
+    accuracy = nearest_neighbour(images, 300, 300)
     
     %% What if we were to leave out the PCA step? The Nearest Neighbour
     % algorithm is able to handle all 16800 dimensions computationally.
