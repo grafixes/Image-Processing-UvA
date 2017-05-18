@@ -2,6 +2,7 @@
 function accuracy = nearest_neighbour(images, train_n, d)
 
     [train_set, test_set] = separate_data(images, train_n);
+    test_n = numel(test_set);
     X = data_matrix(train_set);
     test_X = data_matrix(test_set);
     
@@ -16,7 +17,7 @@ function accuracy = nearest_neighbour(images, train_n, d)
     % for each image in the test set, find the closest image 
     % in the training set
     closest_found = 0;
-    for i = 1:numel(test_set)
+    for i = 1:test_n
         % get the test image
         test_img = test_PC(i, :);
         % calculate the Euclidean distance between the training images 
@@ -34,5 +35,5 @@ function accuracy = nearest_neighbour(images, train_n, d)
         end
     end
     
-    accuracy = closest_found / numel(test_set);
+    accuracy = closest_found / test_n;
 end
