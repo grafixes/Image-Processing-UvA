@@ -38,33 +38,47 @@ function main()
     figure('name','Q2.3: Plot the eigenvalues of the first 50 PCA components');
     plot(1:50, first_fifty, '-ko', 'MarkerEdgeColor', 'r', ...
         'MarkerFaceColor', 'r', 'MarkerSize', 4);
+    xlabel('Number of PCA Component');
+    ylabel('Eigenvalue');
     
     %% (Sec.2.4) Compare the speedup relative to the naive implementation 
     % of the image differences without the PCA
+    
     
     %% (Sec.3.1) Project both the training and test set onto the
     % PCA components, yielding the reduced representation 
     % of the images. Find the closest image in the training set and
     % evaluate your accuracy.
-    accuracy = nearest_neighbour(images, 300, 100)
+    accuracy = nearest_neighbour(images, 300, 100);
+    disp(['Accuracy of nearest neigbour, where d=100: ', ...
+        num2str(accuracy * 100), '%']);
     
-    %% Would results improve if we were to remove the nearly black
+    %% (Sec.3.2) Would results improve if we were to remove the nearly black
     % borders of our images? Why?
     % - The results of removing the black border would be very small,
     % since the removal of this border would not have a big impact on 
     % the variance.
     
-    %% Experiment with the number of PCA components used when positioning
-    accuracy = nearest_neighbour(images, 300, 10)
-    accuracy = nearest_neighbour(images, 300, 50)
-    accuracy = nearest_neighbour(images, 300, 100)
-    accuracy = nearest_neighbour(images, 300, 200)
-    accuracy = nearest_neighbour(images, 300, 300)
+    %% (Sec.3.3) Experiment with the number of PCA components used when
+    % positioning
+    x = [1 10:10:290, 300];
+    accuracy = zeros(1, numel(x));
+    for i = 1:numel(x)
+        accuracy(i) = nearest_neighbour(images, 300, x(i));
+    end
+    disp(accuracy)
+    figure('name','Q3.3: Relation between PCA components and accuracy');
+    plot([1 10:10:290, 300], accuracy, '-ko', 'MarkerEdgeColor', 'r', ...
+        'MarkerFaceColor', 'r', 'MarkerSize', 4);
+    xlabel('Number of PCA Components');
+    ylabel('Nearest Neighbour Accuracy');
     
-    %% What if we were to leave out the PCA step? The Nearest Neighbour
-    % algorithm is able to handle all 16800 dimensions computationally.
-    % But will it work on the raw images, or suffer from the curse 
-    % of dimensionality? Try it!
-    
+    %% (Sec.3.4) What if we were to leave out the PCA step? The Nearest
+    % Neighbour algorithm is able to handle all 16800 dimensions
+    % computationally. But will it work on the raw images, or suffer
+    % from the curse of dimensionality? Try it!
+    accuracy = nearest_neighbour(images, 300, 0);
+    disp(['Accuracy of nearest neigbour, without PCA: ', ...
+        num2str(accuracy * 100), '%']);
     
 end
