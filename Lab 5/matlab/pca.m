@@ -26,6 +26,11 @@ function [signals, PC, V] = pca(X, k)
     % extract diagonal of matrix of eigenvalues as vector
     V = diag(V);
     
+    % sort the variances in decreasing order
+    [junk, rindices] = sort(-1*V);
+    V  = V(rindices);
+    PC = PC(:,rindices);
+    
     % project the original data set
     signals = PC' * X;
 end
