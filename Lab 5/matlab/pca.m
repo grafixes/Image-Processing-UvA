@@ -2,13 +2,13 @@
 % Given:
 %   X       -   MxN matrix of input data
 %               (M trials, N dimensions)
-%   k       -   number of largest magnitude eigenvalues
+%   d       -   number of largest magnitude eigenvalues
 %
 % Returns:
 %   signals -   MxN matrix of projected data
-%   PC      -   each column is a PC
+%   PC      -   each column is a PC (eigenvector)
 %   V       -   Mx1 matrix of variances
-function [signals, PC, V] = pca(X, k)
+function [signals, PC, V] = pca(X, d)
 
     [~, N] = size(X);
 
@@ -21,7 +21,7 @@ function [signals, PC, V] = pca(X, k)
     % calculate the diagonal matrix V of eigenvalues
     % and matrix PC whose columns are the 
     % corresponding right eigenvectors
-    [PC, V] = eigs(C, k);
+    [PC, V] = eigs(C, d);
     
     % extract diagonal of matrix of eigenvalues as vector
     V = diag(V);

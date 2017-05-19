@@ -13,15 +13,15 @@ function main()
     % and a test set containing the rest.
     [train_set, test_set] = separate_data(images, 300);
     
-    % Construct a matrix X, containing the train data with size n by d
+    % Construct a matrix X, containing the training data with size n by d
     % with n the number of datapoints and d the number of data 
     % dimensions (16800 for our vectorized images).
     X = data_matrix(train_set);
     
     %% (Sec.2.1) Apply PCA to our dataset to reduce dimensionality of 
     % the data to d, making d a configureable parameter.
-    % Apply PCA to our X matrix, with a d of 100.
-    [Y, ~, D] = pca(X, 100);
+    % Apply PCA to our X matrix, with a d of 50.
+    [Y, PC, D] = pca(X, 50);
     
     %% (Sec.2.2) Plot the first 9 PCA vectors as images
     % Get the first 9 PCA vectors.
@@ -41,9 +41,40 @@ function main()
     xlabel('Number of PCA Component');
     ylabel('Eigenvalue');
     
+    %% Take an image from the set, and find the next best match using the
+    % image similarty (the best match is of course the image itself!).
+    image = PC(1, :);
+    rest = PC(2:300, :);
+    distance = sqrt(sum((rest-image).^2, 2));
+    [~, idx] = sort(distance);
+    
+    figure('name', 'Similar images');
+    subplot(1, 2, 1);
+    imshow(train_set{idx(1)}.img, []);
+    title('Original');
+    subplot(1, 2, 2);
+    imshow(train_set{idx(2)}.img, []);
+    title('Most similar');
+    
     %% (Sec.2.4) Compare the speedup relative to the naive implementation 
     % of the image differences without the PCA
+    tic;
+        image = X(1, :);
+        rest = X(2:300, :);
+        distance = sqrt(sum((rest-image).^2, 2));
+        [~, ~] =  sort(distance);
+    naive_time = toc;
+        
+    tic;
+        image = PC(1, :);
+        rest = PC(2:300, :);
+        distance = sqrt(sum((rest-image).^2, 2));
+        [~, ~] = sort(distance);
+    pca_time = toc;
     
+    speedup = naive_time/pca_time;
+    disp(['The speedup of using PCA to using the naive implementation is ', ...
+        num2str(speedup)]);
     
     %% (Sec.3.1) Project both the training and test set onto the
     % PCA components, yielding the reduced representation 

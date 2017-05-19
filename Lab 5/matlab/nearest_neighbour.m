@@ -1,7 +1,7 @@
 %% NEAREST NEIGHBOUR
 % Given:
 %   images      -   a dataset of images
-%   train_n     -   number of datapoints in train set
+%   train_n     -   number of datapoints in training set
 %   d           -   number of dimensionality reduction
 % Returns:
 %   accuracy    -   the degree to which the correct positions are found
